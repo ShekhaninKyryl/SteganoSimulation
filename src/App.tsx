@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Box, Grid, makeStyles } from "@material-ui/core";
 
 import Header from "./components/Header/Header";
 import Body from "./components/Body/Body";
@@ -14,7 +14,6 @@ const useStles = makeStyles(()=>({
   grid: {
     padding: 8,
   },
-
 }))
 
 
@@ -22,7 +21,7 @@ function App() {
 
   const classes = useStles();
   return (
-    <div className="App">
+    <Box bgcolor="text.disabled" className="App">
       <Grid container direction="column" className={classes.container}>
         <Grid item key={"header"} className={classes.grid} xs={2} >
           <Header />
@@ -34,7 +33,7 @@ function App() {
           <Footer />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 

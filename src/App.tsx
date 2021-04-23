@@ -26,7 +26,7 @@ function App() {
         <Grid item key={"header"} className={classes.grid} xs={2} >
           <Header />
         </Grid>
-        <Grid item key={"body"} className={classes.grid} xs={6}>
+        <Grid item key={"body"} className={classes.grid} xs={8}>
           <Body />
         </Grid>
         <Grid item key={"footer"} className={classes.grid} xs={2}>

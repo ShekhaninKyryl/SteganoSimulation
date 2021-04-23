@@ -1,5 +1,5 @@
 import { Cluster } from "../Claster/Claster";
-import { IFile } from "../File/File";
+import { File } from "../File/File";
 
 import FS_CONSTANTS, { FS_TYPES } from "../../constants/fileSystem"
 
@@ -13,24 +13,37 @@ export interface IFSOption {
 export interface IFileSystem {
   type: FS_TYPES
   clusters: Cluster[];
-  files: IFile[];
+  files: File[];
 }
 
 
 export class FileSystem implements IFileSystem {
-  type = FS_TYPES.WITHOUT_TYPE;
-  clusters: Cluster[] = [];
-  files = [];
+
   constructor(options: IFSOption) {
     this.type = options.type ? options.type : FS_TYPES.WITHOUT_TYPE;
 
     this.clusters = options.size ? this.generateClusters(options.size) : this.generateClusters(FS_CONSTANTS.FS_SIZE_DEFAULT);
 
+    if (options.numFiles) {
+      this.files = this.generateFiles(options.numFiles);
+    }
   }
 
+  type = FS_TYPES.WITHOUT_TYPE;
+  clusters: Cluster[] = [];
+  files: File[] = [];
 
-  generateClusters = (size: number): Cluster[] => {
+
+  private generateClusters = (size: number): Cluster[] => {
     const clusters = (new Array(size)).fill('');
-    return clusters.map((_, index) =>  new Cluster(index + FS_CONSTANTS.START_FS_INDEX, this));
+    return clusters.map((_, index) => new Cluster(index + FS_CONSTANTS.START_FS_INDEX, this));
+  }
+
+  private generateFiles = (numFiles: number): File[] => {
+    const files = [];
+    while (files.length < numFiles) {
+      files.push(new File({ fs: this }));
+    }
+    return files;
   }
 }

@@ -6,18 +6,23 @@ import Body from "./components/Body/Body";
 import Footer from "./components/Footer/Footer";
 
 import './App.css';
+import { FileSystem } from "./entities/FileSystem/FileSystem";
 
-const useStles = makeStyles(()=>({
+const useStles = makeStyles(() => ({
   container: {
     height: "100vh",
   },
   grid: {
     padding: 8,
   },
-}))
+}));
+
+const fs = new FileSystem({ size: 50, numFiles: 4 })
 
 
 function App() {
+
+  console.log(fs);
 
   const classes = useStles();
   return (

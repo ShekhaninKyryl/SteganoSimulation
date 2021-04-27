@@ -7,36 +7,35 @@ import Footer from "./components/Footer/Footer";
 
 import './App.css';
 import { FileSystem } from "./entities/FileSystem/FileSystem";
+import { useState } from "react";
 
 const useStles = makeStyles(() => ({
   container: {
     height: "100vh",
   },
-  grid: {
+  boxes: {
     padding: 8,
+    boxSizing: "border-box",
   },
 }));
 
-const fs = new FileSystem({ size: 50, numFiles: 4 })
-
 
 function App() {
-
-  console.log(fs);
+  const [fs, setFs] = useState(() => new FileSystem({ size: 50, numFiles: 4 }))
 
   const classes = useStles();
   return (
     <Box bgcolor="text.disabled" className="App">
-      <Grid container direction="column" className={classes.container}>
-        <Grid item key={"header"} className={classes.grid} xs={2} >
+      <Grid container direction="column" wrap="nowrap" className={classes.container}>
+        <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
           <Header />
-        </Grid>
-        <Grid item key={"body"} className={classes.grid} xs={8}>
-          <Body />
-        </Grid>
-        <Grid item key={"footer"} className={classes.grid} xs={2}>
+        </Box>
+        <Box width="100%" height="60%" className={classes.boxes}>
+          <Body fs={fs} />
+        </Box>
+        <Box width="100%" height="20%" className={classes.boxes}>
           <Footer />
-        </Grid>
+        </Box>
       </Grid>
     </Box>
   );

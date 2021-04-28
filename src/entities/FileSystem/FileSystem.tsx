@@ -57,4 +57,5 @@ export class FileSystem implements IFileSystem {
     second.fileIndex = tmp.fileIndex;
   }
 
+  public setClusters = (newClusters: Cluster[])=> this.clusters = newClusters;
 }

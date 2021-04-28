@@ -21,7 +21,7 @@ const Body: React.FC<IBodyProps> = ({ fs }) => {
     <div>
       <Grid container alignItems="flex-start" spacing={3} className={classes.container}>
         {fs?.clusters.map(c => (
-          <Grid item xs={1}>
+          <Grid key={c.fsIndex} item xs={1}>
             <Cluster cluster={c} />
           </Grid>
         ))}

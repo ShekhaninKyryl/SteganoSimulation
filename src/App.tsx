@@ -9,6 +9,8 @@ import './App.css';
 import { FileSystem } from "./entities/FileSystem/FileSystem";
 import { useState } from "react";
 import clsx from "clsx";
+import { I_Basic } from "./utils/stegano/basic/I-method";
+import { convertStringToBoolean } from "./utils/message/convertStringToBoolean";
 
 const useStles = makeStyles(() => ({
   container: {
@@ -29,6 +31,8 @@ function App() {
   const [fs, setFs] = useState(() => new FileSystem({ size: 50, numFiles: 4 }));
 
   fs.swapClusters(fs.clusters[3], fs.clusters[20]);
+
+  I_Basic("H", fs);
 
   const classes = useStles();
   return (

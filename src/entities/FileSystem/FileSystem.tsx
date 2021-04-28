@@ -46,4 +46,15 @@ export class FileSystem implements IFileSystem {
     }
     return files;
   }
+
+  public swapClusters = (first: Cluster, second: Cluster) => {
+    const tmp = {...first};
+
+    first.file = second.file;
+    first.fileIndex = second.fileIndex;
+
+    second.file = tmp.file;
+    second.fileIndex = tmp.fileIndex;
+  }
+
 }

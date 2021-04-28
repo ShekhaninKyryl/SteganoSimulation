@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import './App.css';
 import { FileSystem } from "./entities/FileSystem/FileSystem";
 import { useState } from "react";
+import clsx from "clsx";
 
 const useStles = makeStyles(() => ({
   container: {
@@ -17,20 +18,26 @@ const useStles = makeStyles(() => ({
     padding: 8,
     boxSizing: "border-box",
   },
+  mainBox: {
+    overflowX: "hidden",
+    overflowY: "scroll",
+  }
 }));
 
 
 function App() {
-  const [fs, setFs] = useState(() => new FileSystem({ size: 50, numFiles: 4 }))
+  const [fs, setFs] = useState(() => new FileSystem({ size: 50, numFiles: 4 }));
+
+  fs.swapClusters(fs.clusters[3], fs.clusters[20]);
 
   const classes = useStles();
   return (
-    <Box bgcolor="text.disabled" className="App">
+    <Box bgcolor="#f5f4e1" className="App">
       <Grid container direction="column" wrap="nowrap" className={classes.container}>
         <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
           <Header />
         </Box>
-        <Box width="100%" height="60%" className={classes.boxes}>
+        <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>
           <Body fs={fs} />
         </Box>
         <Box width="100%" height="20%" className={classes.boxes}>

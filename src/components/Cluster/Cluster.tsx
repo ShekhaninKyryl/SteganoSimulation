@@ -1,4 +1,4 @@
-import { Box, makeStyles } from "@material-ui/core";
+import { Box, makeStyles, Tooltip } from "@material-ui/core";
 import React from "react";
 import clsx from 'clsx';
 import { Cluster as ClusterClass } from "../../entities/Claster/Claster";
@@ -40,13 +40,15 @@ const Cluster: React.FC<ICluster> = ({ cluster }) => {
   const classes = useStles();
 
   return (
-    <Box className={classes.cluster} style={{ borderColor: cluster.file?.color, backgroundColor: cluster.file?.color }}>
-      <div className={classes.container}>
-        <div className={clsx(classes.fixed, classes.index)}>{cluster.fsIndex}</div>
-        <div className={clsx(classes.fixed, classes.fileIndex)}>{cluster.fileIndex}</div>
-        <div className={clsx(classes.fixed, classes.fileName)}>{cluster.file?.name}</div>
-      </div>
-    </Box>
+    <Tooltip open={false} title={false}>
+      <Box className={classes.cluster} style={{ borderColor: cluster.file?.color, backgroundColor: cluster.file?.color }}>
+        <div className={classes.container}>
+          <div className={clsx(classes.fixed, classes.index)}>{cluster.fsIndex}</div>
+          <div className={clsx(classes.fixed, classes.fileIndex)}>{cluster.fileIndex}</div>
+          <div className={clsx(classes.fixed, classes.fileName)}>{cluster.file?.name}</div>
+        </div>
+      </Box>
+    </Tooltip>
   )
 }
 

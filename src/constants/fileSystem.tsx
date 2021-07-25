@@ -4,7 +4,7 @@ export enum FS_TYPES {
   "NTFS",
 };
 
-const START_FS_INDEX = 2;
+const START_FS_INDEX = 0;
 const LAST_FS_INDEX = Number.MAX_SAFE_INTEGER;
 const FS_SIZE_DEFAULT = 50;
 const FS_NUM_FILES_DEFAULT = 4;

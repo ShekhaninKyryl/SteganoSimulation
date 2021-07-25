@@ -1,12 +1,16 @@
 import { File } from "../File/File"
 import { IFileSystem } from "../FileSystem/FileSystem"
 
+export const NEED_FOR_BIND = "NEED_FOR_BIND";
+
+type IFileIndex = number | typeof NEED_FOR_BIND;
 export interface ICluster {
   fs: IFileSystem;
   fsIndex: number;
 
   file?: File;
-  fileIndex?: number;
+  fileIndex?: IFileIndex;
+  steganoBlock?: number;
 }
 
 
@@ -20,12 +24,22 @@ export class Cluster implements ICluster {
   fsIndex;
 
   file?: File;
-  fileIndex?: number;
+  fileIndex?: IFileIndex;
 
   bindToFile = (file: File, fileIndex: number) => {
     this.file = file;
     this.fileIndex = fileIndex;
   }
 
-  isFree = () => !this.file;
+  resumeFile = (needForBind = false) =>{
+    if(needForBind) this.fileIndex = NEED_FOR_BIND;
+    else {
+      this.fileIndex = undefined;
+    }
+    this.file = undefined;
+  };
+
+
+
+  isFree = () => this.file===undefined && this.fileIndex===undefined;
 }

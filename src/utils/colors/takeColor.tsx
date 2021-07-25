@@ -19,8 +19,8 @@ export const takeColor = (colorsArray: ColorWithMark[], color?: Color): Color =>
     return color;
   }
 
-  const colorIsBusy = existedColor.busy;
-  if (colorIsBusy) throw new Error(`Current color: ${color} has already busy!`);
+  // const colorIsBusy = existedColor.busy;
+  // if (colorIsBusy) throw new Error(`Current color: ${color} has already busy!`);
 
   const index = colorsArray.findIndex(c => c.color === color);
   colorsArray[index].busy = true;

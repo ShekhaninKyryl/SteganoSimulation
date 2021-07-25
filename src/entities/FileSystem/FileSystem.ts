@@ -3,11 +3,16 @@ import { File } from "../File/File";
 
 import FS_CONSTANTS, { FS_TYPES } from "../../constants/fileSystem"
 
+type IFileOption = {
+  name?: string;
+  color?: string;
+  sizeInClusters?: number;
+}
 
 export interface IFSOption {
   type?: FS_TYPES | undefined;
   size?: number;
-  numFiles?: number;
+  fileOptions?: IFileOption[];
 }
 
 export interface IFileSystem {
@@ -24,9 +29,7 @@ export class FileSystem implements IFileSystem {
 
     this.clusters = options.size ? this.generateClusters(options.size) : this.generateClusters(FS_CONSTANTS.FS_SIZE_DEFAULT);
 
-    if (options.numFiles) {
-      this.files = this.generateFiles(options.numFiles);
-    }
+    this.files = this.generateFiles(options.fileOptions);
   }
 
   type = FS_TYPES.WITHOUT_TYPE;
@@ -39,16 +42,18 @@ export class FileSystem implements IFileSystem {
     return clusters.map((_, index) => new Cluster(index + FS_CONSTANTS.START_FS_INDEX, this));
   }
 
-  private generateFiles = (numFiles: number): File[] => {
-    const files = [];
-    while (files.length < numFiles) {
-      files.push(new File({ fs: this }));
-    }
+  private generateFiles = (fileOptions?: IFileOption[]): File[] => {
+
+    if (!fileOptions) return [];
+    const files: File[] = [];
+    fileOptions.forEach(f => {
+      files.push(new File({ fs: this, name: f.name || `File_${files.length}`, color: f.color, sizeInClusters: f.sizeInClusters }));
+    });
     return files;
   }
 
   public swapClusters = (first: Cluster, second: Cluster) => {
-    const tmp = {...first};
+    const tmp = { ...first };
 
     first.file = second.file;
     first.fileIndex = second.fileIndex;
@@ -57,5 +62,5 @@ export class FileSystem implements IFileSystem {
     second.fileIndex = tmp.fileIndex;
   }
 
-  public setClusters = (newClusters: Cluster[])=> this.clusters = newClusters;
+  public setClusters = (newClusters: Cluster[]) => this.clusters = newClusters;
 }

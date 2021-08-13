@@ -23,7 +23,6 @@ export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => 
     if (spreadClustersIndex[steganoBlock] === undefined) spreadClustersIndex[steganoBlock] = [];
     spreadClustersIndex[steganoBlock].push(index)
   });
-  console.log(spreadClustersIndex);
 
   const newFs = new FileSystem({ size: fileSystem.clusters.length, fileOptions: files.map(f => ({ color: f.color, name: f.name, sizeInClusters: 0 })) });
 

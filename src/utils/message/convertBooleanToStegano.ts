@@ -1,6 +1,5 @@
 
 export const convertBooleanToStegano = (message: Boolean[], bitPerCluster: number): number[] => {
-  console.log(message);
   const steganoMessage = [];
   let currentStgValue = '';
   for (let i = 0; i < message.length; i++) {

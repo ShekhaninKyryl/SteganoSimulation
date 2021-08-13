@@ -1,4 +1,4 @@
-import { Cluster } from "../Claster/Claster";
+import { Cluster, IFileIndex } from "../Claster/Claster";
 import { File } from "../File/File";
 
 import FS_CONSTANTS, { FS_TYPES } from "../../constants/fileSystem"
@@ -21,6 +21,7 @@ export interface IFileSystem {
   files: File[];
 }
 
+export type MinificatedCluster = { fsIndex: number, fileIndex?: IFileIndex, file: number };
 
 export class FileSystem implements IFileSystem {
 
@@ -63,4 +64,8 @@ export class FileSystem implements IFileSystem {
   }
 
   public setClusters = (newClusters: Cluster[]) => this.clusters = newClusters;
+
+  public getMinState = (): MinificatedCluster[] => {
+    return this.files.reduce((result, f, index) => [...result, ...f.clusters.map(c => ({ fsIndex: c.fsIndex, fileIndex: c.fileIndex, file: index }))], [] as MinificatedCluster[]);
+  }
 }

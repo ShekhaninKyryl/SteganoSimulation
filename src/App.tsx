@@ -10,6 +10,7 @@ import { FileSystem } from "./entities/FileSystem/FileSystem";
 import { useState } from "react";
 import clsx from "clsx";
 import { I_Basic } from "./utils/stegano/basic/I-method";
+import { II_Basic } from "./utils/stegano/basic/II_method";
 
 const FS_INIT = {
   size: 100,
@@ -53,6 +54,10 @@ function App() {
     setFs(I_Basic("Hello", fs));
   };
 
+  const handleBasic_II = () => {
+    II_Basic("Hello", fs);
+  }
+
 
 
   const classes = useStles();
@@ -60,7 +65,7 @@ function App() {
     <Box bgcolor="#f5f4e1" className="App">
       <Grid container direction="column" wrap="nowrap" className={classes.container}>
         <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
-          <Header onBasic_I={handleBasic_I} onReset={handleReset} />
+          <Header onBasic_I={handleBasic_I} onBasic_II={handleBasic_II} onReset={handleReset} />
         </Box>
         <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>
           <Body fs={fs} />

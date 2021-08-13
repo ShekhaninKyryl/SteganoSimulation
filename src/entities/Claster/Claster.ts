@@ -3,7 +3,7 @@ import { IFileSystem } from "../FileSystem/FileSystem"
 
 export const NEED_FOR_BIND = "NEED_FOR_BIND";
 
-type IFileIndex = number | typeof NEED_FOR_BIND;
+export type IFileIndex = number | typeof NEED_FOR_BIND;
 export interface ICluster {
   fs: IFileSystem;
   fsIndex: number;

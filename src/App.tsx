@@ -16,16 +16,16 @@ const FS_INIT = {
   size: 100,
   fileOptions: [
     {
-      name: "A.txt", sizeInClusters: 10, color: "#FFFFFF"
+      name: "A.txt", sizeInClusters: 4, color: "#FFFFFF"
     },
     {
-      name: "B.txt", sizeInClusters: 10, color: "#880000"
+      name: "B.txt", sizeInClusters: 4, color: "#880000"
     },
     {
-      name: "C.txt", sizeInClusters: 10, color: "#FF0000"
+      name: "C.txt", sizeInClusters: 4, color: "#FF0000"
     },
     {
-      name: "D.txt", sizeInClusters: 10, color: "#FF5500"
+      name: "D.txt", sizeInClusters: 4, color: "#FF5500"
     },
   ]
 }
@@ -51,11 +51,11 @@ function App() {
   const handleReset = () => setFs(new FileSystem(FS_INIT));
 
   const handleBasic_I = () => {
-    setFs(I_Basic("Hello", fs));
+    setFs(I_Basic("H", fs));
   };
 
   const handleBasic_II = () => {
-    II_Basic("Hello", fs);
+    II_Basic("H", fs);
   }
 
 

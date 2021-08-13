@@ -21,7 +21,7 @@ export interface IFileSystem {
   files: File[];
 }
 
-export type MinificatedCluster = { fsIndex: number, fileIndex?: IFileIndex, file: number };
+export type IMinificatedCluster = { fsIndex: number, fileIndex?: IFileIndex, file: number };
 
 export class FileSystem implements IFileSystem {
 
@@ -65,7 +65,7 @@ export class FileSystem implements IFileSystem {
 
   public setClusters = (newClusters: Cluster[]) => this.clusters = newClusters;
 
-  public getMinState = (): MinificatedCluster[] => {
-    return this.files.reduce((result, f, index) => [...result, ...f.clusters.map(c => ({ fsIndex: c.fsIndex, fileIndex: c.fileIndex, file: index }))], [] as MinificatedCluster[]);
+  public getMinState = (): IMinificatedCluster[] => {
+    return this.files.reduce((result, f, index) => [...result, ...f.clusters.map(c => ({ fsIndex: c.fsIndex, fileIndex: c.fileIndex, file: index }))], [] as IMinificatedCluster[]);
   }
 }

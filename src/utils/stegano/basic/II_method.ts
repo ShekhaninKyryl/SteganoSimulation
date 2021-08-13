@@ -1,4 +1,5 @@
-import { FileSystem, MinificatedCluster } from "../../../entities/FileSystem/FileSystem";
+import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
+import { getPermutation } from "../../getPermutation";
 import { convertBooleanToStegano } from "../../message/convertBooleanToStegano";
 import { convertStringToBoolean } from "../../message/convertStringToBoolean";
 
@@ -20,7 +21,7 @@ export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);
-  let endState: MinificatedCluster[] = [];
+  let endState: IMinificatedCluster[] = [];
   const copyOfInitState = [...initState];
 
   steganoMessage.forEach(s => {
@@ -32,7 +33,10 @@ export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
   copyOfInitState.forEach(iS => endState.push(iS));
   endState = endState.map((eS, index) => ({ ...eS, fsIndex: fsIndexes[index] }));
 
+  
+
   console.log(initState);
   console.log(endState);
+  console.log(getPermutation(initState, endState));
   
 }

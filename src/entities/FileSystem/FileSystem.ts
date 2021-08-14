@@ -22,7 +22,7 @@ export interface IFileSystem {
   clustersInMemory: Cluster[];
 }
 
-export type IMinificatedCluster = { fsIndex: number, fileIndex?: IFileIndex, file: number };
+export type IMinificatedCluster = { fsIndex: number, fileIndex?: IFileIndex, file: number, moved?: boolean };
 
 export class FileSystem implements IFileSystem {
 

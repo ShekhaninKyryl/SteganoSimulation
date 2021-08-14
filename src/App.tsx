@@ -56,8 +56,8 @@ function App() {
 
   const handleBasic_II = () => {
     II_Basic("H", fs);
+    setFs(Object.assign({}, fs));
   }
-
 
 
   const classes = useStles();

@@ -14,7 +14,6 @@ interface IBodyProps {
 }
 
 const Body: React.FC<IBodyProps> = ({ fs }) => {
-  console.log(fs);
 
   const classes = useStles();
   return (

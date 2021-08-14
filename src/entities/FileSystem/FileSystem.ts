@@ -1,4 +1,4 @@
-import { Cluster, IFileIndex } from "../Claster/Claster";
+import { Cluster, IFileIndex } from "../Cluster/Cluster";
 import { File } from "../File/File";
 
 import FS_CONSTANTS, { FS_TYPES } from "../../constants/fileSystem"
@@ -19,6 +19,7 @@ export interface IFileSystem {
   type: FS_TYPES
   clusters: Cluster[];
   files: File[];
+  clustersInMemory: Cluster[];
 }
 
 export type IMinificatedCluster = { fsIndex: number, fileIndex?: IFileIndex, file: number };
@@ -35,6 +36,7 @@ export class FileSystem implements IFileSystem {
 
   type = FS_TYPES.WITHOUT_TYPE;
   clusters: Cluster[] = [];
+  clustersInMemory: Cluster[] = [];
   files: File[] = [];
 
 
@@ -65,7 +67,50 @@ export class FileSystem implements IFileSystem {
 
   public setClusters = (newClusters: Cluster[]) => this.clusters = newClusters;
 
-  public getMinState = (): IMinificatedCluster[] => {
-    return this.files.reduce((result, f, index) => [...result, ...f.clusters.map(c => ({ fsIndex: c.fsIndex, fileIndex: c.fileIndex, file: index }))], [] as IMinificatedCluster[]);
+  public getMinState = (): IMinificatedCluster[] => this.files.reduce(
+    (result, f, index) =>
+      [
+        ...result,
+        ...f.clusters.map(
+          c => (
+            {
+              fsIndex: c.fsIndex,
+              fileIndex: c.fileIndex,
+              file: index
+            }
+          )
+        )
+      ], [] as IMinificatedCluster[])
+    .sort((a, b) => a.fsIndex - b.fsIndex);
+
+
+  public readClusterToMemory = (fsIndex: number) => {
+    const cluster = this.clusters.find(c => c.fsIndex === fsIndex);
+    if (!cluster) {
+      console.warn("Cluster was not found!");
+      return;
+    }
+    cluster.file?.removeCluster(cluster);
+    this.clustersInMemory.push({ ...cluster });
+    cluster.resumeFile();
+  }
+
+  public writeClusterFromMemory = (fsIndex: number) => {
+    const cluster = this.clusters.find(c => c.fsIndex === fsIndex);
+    const [memoriedCluster] = this.clustersInMemory;
+
+    if (!memoriedCluster.file || memoriedCluster.fileIndex === undefined) {
+      console.warn("Memocluster doesn't have file or file index!");
+      return;
+    }
+    if (!cluster) {
+      console.warn("Cluster was not found!");
+      return;
+    }
+
+    cluster.bindToFile(memoriedCluster.file, memoriedCluster.fileIndex);
+    memoriedCluster.file.addCluster(cluster);
+
+    this.clustersInMemory.shift();
   }
 }

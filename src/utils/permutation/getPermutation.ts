@@ -1,11 +1,12 @@
-import { IMinificatedCluster } from "../entities/FileSystem/FileSystem";
+import { IMinificatedCluster } from "../../entities/FileSystem/FileSystem";
 
-type IPermutations = number[][];
+
+export type IPermutation = number[];
 
 type IMarkedCluster = IMinificatedCluster & { selected: boolean }
 
-export const getPermutation = (initState: IMinificatedCluster[], endState: IMinificatedCluster[]): IPermutations => {
-  const permutations: IPermutations = [];
+export const getPermutation = (initState: IMinificatedCluster[], endState: IMinificatedCluster[]): IPermutation[] => {
+  const permutations: IPermutation[] = [];
 
   const localInitState: IMarkedCluster[] = initState.map(s => ({ ...s, selected: false }));
   const localEndState: IMarkedCluster[] = endState.map(s => ({ ...s, selected: false }));
@@ -13,9 +14,10 @@ export const getPermutation = (initState: IMinificatedCluster[], endState: IMini
 
   let currentCluster: IMarkedCluster = localInitState[0];
   let index = 0;
+  const getEndStateIndex = (s: IMarkedCluster) => s.file === currentCluster.file && s.fileIndex === currentCluster.fileIndex
 
   while (index !== -1) {
-    const permutation = [];
+    const permutation: IPermutation = [];
 
     while (!localInitState[index].selected) {
       localInitState[index].selected = true;
@@ -23,7 +25,7 @@ export const getPermutation = (initState: IMinificatedCluster[], endState: IMini
 
       permutation.push(index);
 
-      index = localEndState.findIndex(s => s.file === currentCluster.file && s.fileIndex === currentCluster.fileIndex);
+      index = localEndState.findIndex(getEndStateIndex);
     }
     permutations.push(permutation);
     index = localInitState.findIndex(s => !s.selected);

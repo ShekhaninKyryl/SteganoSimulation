@@ -1,7 +1,7 @@
 import { Box, makeStyles, Tooltip } from "@material-ui/core";
 import React from "react";
 import clsx from 'clsx';
-import { Cluster as ClusterClass } from "../../entities/Claster/Claster";
+import { Cluster as ClusterClass } from "../../entities/Cluster/Cluster";
 
 const useStles = makeStyles(() => ({
   cluster: {

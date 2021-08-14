@@ -3,7 +3,7 @@ import { IFileSystem } from "../FileSystem/FileSystem"
 
 export const NEED_FOR_BIND = "NEED_FOR_BIND";
 
-export type IFileIndex = number | typeof NEED_FOR_BIND;
+export type IFileIndex = number;
 export interface ICluster {
   fs: IFileSystem;
   fsIndex: number;
@@ -31,15 +31,12 @@ export class Cluster implements ICluster {
     this.fileIndex = fileIndex;
   }
 
-  resumeFile = (needForBind = false) =>{
-    if(needForBind) this.fileIndex = NEED_FOR_BIND;
-    else {
-      this.fileIndex = undefined;
-    }
+  resumeFile = () => {
+    this.fileIndex = undefined;
     this.file = undefined;
   };
 
 
 
-  isFree = () => this.file===undefined && this.fileIndex===undefined;
+  isFree = () => this.file === undefined && this.fileIndex === undefined;
 }

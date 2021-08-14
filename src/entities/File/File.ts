@@ -1,6 +1,6 @@
 import { colorArray } from "../../constants/colors";
 import { takeColor } from "../../utils/colors/takeColor";
-import { Cluster, NEED_FOR_BIND } from "../Claster/Claster";
+import { Cluster } from "../Cluster/Cluster";
 import { FileSystem } from "../FileSystem/FileSystem";
 
 let FILE_COUNTER = 0;
@@ -55,7 +55,7 @@ export class File implements IFile {
     if (!retrospective) this.cleareClusters();
     else this.needForBind = this.clusters.length > clustersIndex.length ? this.clusters.length - clustersIndex.length : 0;
 
-    this.clusters.forEach(c => c.resumeFile(true));
+    this.clusters.forEach(c => c.resumeFile());
     this.clusters = [];
 
 
@@ -84,7 +84,16 @@ export class File implements IFile {
       this.clusters.push(isFreeCluster)
       numberOfClusters--;
     })
+  };
 
+  public removeCluster = (cluster: Cluster) => {
+    const index = this.clusters.findIndex(c => c.file === cluster.file && c.fileIndex === cluster.fileIndex);
+    this.clusters.splice(index, 1);
+  };
+
+  public addCluster = (cluster: Cluster) => {
+    this.clusters.push(cluster);
+    this.clusters = this.clusters.sort((a, b) => a.fsIndex - b.fsIndex);
   };
 
 

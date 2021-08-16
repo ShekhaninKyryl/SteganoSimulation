@@ -31,7 +31,9 @@ export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
     copyOfInitState.splice(foundIndex, 1);
   });
 
-  copyOfInitState.forEach(iS => endState.push(iS));
+  copyOfInitState
+    .sort((a, b) => a.file - b.file)
+    .forEach(iS => endState.push(iS));
   endState = endState.map((eS, index) => ({ ...eS, fsIndex: fsIndexes[index] }));
 
   const permutations = getPermutation(initState, endState);

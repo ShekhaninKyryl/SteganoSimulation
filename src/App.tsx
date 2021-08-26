@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { I_Basic } from "./utils/stegano/basic/I_method";
 import { II_Basic } from "./utils/stegano/basic/II_method";
 import { III_Basic } from "./utils/stegano/basic/III_method";
+import { IV_Basic } from "./utils/stegano/basic/IV_method";
 
 const FS_INIT = {
   size: 100,
@@ -57,12 +58,17 @@ function App() {
 
   const handleBasic_II = () => {
     II_Basic("H", fs);
-    setFs(Object.assign({}, fs));
+    setFs(Object.assign({ }, fs));
   }
 
   const handleBasic_III = () => {
     III_Basic("H", fs);
-    setFs(Object.assign({}, fs));
+    setFs(Object.assign({ }, fs));
+  }
+
+  const handleBasic_IV = () => {
+    IV_Basic("H", fs);
+    setFs(Object.assign({ }, fs));
   }
 
 
@@ -75,6 +81,7 @@ function App() {
             onBasic_I={handleBasic_I}
             onBasic_II={handleBasic_II}
             onBasic_III={handleBasic_III}
+            onBasic_IV={handleBasic_IV}
             onReset={handleReset} />
         </Box>
         <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>

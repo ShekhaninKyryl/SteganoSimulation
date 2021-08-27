@@ -19,6 +19,9 @@ interface IProps {
   onBasic_II: () => void;
   onBasic_III: () => void;
   onBasic_IV: () => void;
+
+  onImproved_I: () => void;
+
 }
 
 const Header: React.FC<IProps> = ({
@@ -30,6 +33,8 @@ const Header: React.FC<IProps> = ({
   onBasic_II,
   onBasic_III,
   onBasic_IV,
+
+  onImproved_I
 }) => {
   const classes = useStyles();
 
@@ -46,8 +51,8 @@ const Header: React.FC<IProps> = ({
       </Box>
       <Box>
         <Typography color="textPrimary" variant="h6">{"Improved methods"}</Typography>
-        <ButtonGroup disabled variant="contained" color="secondary" aria-label="text primary button group">
-          <Button onClick={onBasic_I}>{"Basic-I"}</Button>
+        <ButtonGroup variant="contained" color="secondary" aria-label="text primary button group">
+          <Button onClick={onImproved_I}>{"Improved-I"}</Button>
         </ButtonGroup>
       </Box>
       <Box flex={1} display="flex" justifyContent="flex-end" alignItems="flex-end">

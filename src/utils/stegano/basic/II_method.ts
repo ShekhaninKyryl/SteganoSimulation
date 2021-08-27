@@ -1,24 +1,12 @@
 import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
 import { getPermutation } from "../../permutation/getPermutation";
-import { convertBooleanToStegano } from "../../message/convertBooleanToStegano";
-import { convertStringToBoolean } from "../../message/convertStringToBoolean";
 import { usePermutation } from "../../permutation/usePermutation";
+import { getSteganoMessage } from "../../message/getSteganoMessage";
 
 
 
 export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
-  const bitPerCluster = Math.log2(fileSystem.files.length);
-  let steganoMessage: number[] = [];
-  switch (typeof message) {
-    case "string": {
-      steganoMessage = convertBooleanToStegano(convertStringToBoolean(message), bitPerCluster);
-      break;
-    }
-    case "object": {
-      steganoMessage = convertBooleanToStegano(message, bitPerCluster);
-      break;
-    }
-  };
+  let steganoMessage = getSteganoMessage(message, fileSystem);
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

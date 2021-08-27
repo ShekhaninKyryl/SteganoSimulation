@@ -1,14 +1,13 @@
 import { FileSystem } from "../../../entities/FileSystem/FileSystem";
-import { getSteganoMessage } from "../../message/getSteganoMessage";
+import { getSteganoMessageImproved } from "../../message/getSteganoMessage";
 
 
-export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
-  let steganoMessage = getSteganoMessage(message, fileSystem);
-
+export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
+  let steganoMessage = getSteganoMessageImproved(message, fileSystem).basic;
 
   const { files } = fileSystem;
 
-  const spreadClustersIndex: { [key: number]: number[] } = {};
+  const spreadClustersIndex: { [key: number]: number[] } = { };
   steganoMessage.forEach((steganoBlock, index) => {
     if (spreadClustersIndex[steganoBlock] === undefined) spreadClustersIndex[steganoBlock] = [];
     spreadClustersIndex[steganoBlock].push(index)

@@ -49,26 +49,31 @@ const useStles = makeStyles(() => ({
 
 function App() {
   const [fs, setFs] = useState(() => new FileSystem(FS_INIT));
+  const [isBeforeReset, setBeforeReset] = React.useState(false);
 
   const handleReset = () => setFs(new FileSystem(FS_INIT));
 
   const handleBasic_I = () => {
-    setFs(I_Basic("H", fs));
+    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+    setFs(I_Basic("H", fileSystem));
   };
 
   const handleBasic_II = () => {
-    II_Basic("H", fs);
-    setFs(Object.assign({ }, fs));
+    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+    II_Basic("H", fileSystem);
+    setFs(Object.assign({ }, fileSystem));
   }
 
   const handleBasic_III = () => {
-    III_Basic("H", fs);
-    setFs(Object.assign({ }, fs));
+    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+    III_Basic("H", fileSystem);
+    setFs(Object.assign({ }, fileSystem));
   }
 
   const handleBasic_IV = () => {
-    IV_Basic("H", fs);
-    setFs(Object.assign({ }, fs));
+    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+    IV_Basic("H", fileSystem);
+    setFs(Object.assign({ }, fileSystem));
   }
 
 
@@ -78,11 +83,15 @@ function App() {
       <Grid container direction="column" wrap="nowrap" className={classes.container}>
         <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
           <Header
+
+            isBeforeReset={isBeforeReset}
+            setBeforeReset={(value) => setBeforeReset(Boolean(value))}
+            onReset={handleReset}
             onBasic_I={handleBasic_I}
             onBasic_II={handleBasic_II}
             onBasic_III={handleBasic_III}
             onBasic_IV={handleBasic_IV}
-            onReset={handleReset} />
+          />
         </Box>
         <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>
           <Body fs={fs} />

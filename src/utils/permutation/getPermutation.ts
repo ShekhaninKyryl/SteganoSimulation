@@ -5,11 +5,13 @@ export type IPermutation = number[];
 
 type IMarkedCluster = IMinificatedCluster & { selected: boolean }
 
+const sortStates = (a: IMinificatedCluster, b: IMinificatedCluster) => a.fsIndex - b.fsIndex;
+
 export const getPermutation = (initState: IMinificatedCluster[], endState: IMinificatedCluster[]): IPermutation[] => {
   const permutations: IPermutation[] = [];
 
-  const localInitState: IMarkedCluster[] = initState.map(s => ({ ...s, selected: false }));
-  const localEndState: IMarkedCluster[] = endState.map(s => ({ ...s, selected: false }));
+  const localInitState: IMarkedCluster[] = initState.sort(sortStates).map(s => ({ ...s, selected: false }));
+  const localEndState: IMarkedCluster[] = endState.sort(sortStates).map(s => ({ ...s, selected: false }));
 
 
   let currentCluster: IMarkedCluster = localInitState[0];

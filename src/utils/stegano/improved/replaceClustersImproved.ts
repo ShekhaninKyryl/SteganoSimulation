@@ -1,11 +1,12 @@
 import { Cluster } from "../../../entities/Cluster/Cluster";
-import { getSerries } from "./getSerries";
+import { IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
+import { getSerries } from "../../message/getSerries";
 
 
-export const replaceClustersImproved = (fileClusters: Cluster[], message: number[]) => {
-  if(fileClusters.length <= message.length) throw new Error("File length should be more than message on 1 cluster");
+export const replaceClustersImproved = (fileClusters: Cluster[] | IMinificatedCluster[], message: number[]) => {
+  if (fileClusters.length <= message.length) throw new Error("File length should be more than message on 1 cluster");
   const serries = getSerries(message);
-  const fileIndexes = fileClusters.map(c => c.fileIndex).sort();
+  const fileIndexes = fileClusters.map((c: Cluster | IMinificatedCluster) => c.fileIndex).sort();
 
   let currentClusterIndex = 0;
   serries.forEach(oneSerie => {

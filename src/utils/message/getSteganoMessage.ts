@@ -41,8 +41,8 @@ export const getSteganoMessageImproved = (message: Boolean[] | string, fileSyste
   fullMessage.forEach(m => {
     let corectBlock = m.toString(2);
     while (corectBlock.length < bitPerCluster) corectBlock = "0" + corectBlock;
-    const basicPart = +corectBlock.slice(0, bitPerCluster - 1);
-    const improvedPart = +corectBlock.slice(-1);
+    const basicPart = parseInt(corectBlock.slice(0, bitPerCluster - 1), 2);
+    const improvedPart = parseInt(corectBlock.slice(-1), 2);
 
     steganoMessage.basic.push(basicPart);
     if (steganoMessage[basicPart] === undefined) steganoMessage[basicPart] = [];

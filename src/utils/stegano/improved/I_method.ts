@@ -1,14 +1,16 @@
 import { FileSystem } from "../../../entities/FileSystem/FileSystem";
 import { getSteganoMessageImproved } from "../../message/getSteganoMessage";
+import { replaceClustersImproved } from "./replaceClustersImproved";
 
 
 export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
-  let steganoMessage = getSteganoMessageImproved(message, fileSystem).basic;
+  let { basic, ...rest } = getSteganoMessageImproved(message, fileSystem);
+
 
   const { files } = fileSystem;
 
   const spreadClustersIndex: { [key: number]: number[] } = { };
-  steganoMessage.forEach((steganoBlock, index) => {
+  basic.forEach((steganoBlock, index) => {
     if (spreadClustersIndex[steganoBlock] === undefined) spreadClustersIndex[steganoBlock] = [];
     spreadClustersIndex[steganoBlock].push(index)
   });
@@ -24,5 +26,9 @@ export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) 
 
   newFs.files.forEach((f, index) => f.addMissingClusters(fileSystem.files[index].clusters.length - f.clusters.length, availableClusterIndexes));
 
+  newFs.files.forEach((file, index) => {
+    if (!rest[index]) return;
+    replaceClustersImproved(file.clusters, rest[index]);
+  })
   return newFs;
 }

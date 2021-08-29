@@ -79,7 +79,7 @@ function App() {
 
   const handleImproved_I = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    setFs(I_Improved("H", fileSystem));
+    setFs(I_Improved("Hel", fileSystem));
   }
 
 

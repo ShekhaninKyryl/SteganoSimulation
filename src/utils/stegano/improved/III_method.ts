@@ -1,19 +1,21 @@
 import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
-import { getSteganoMessage } from "../../message/getSteganoMessage";
+import { getSteganoMessageImproved } from "../../message/getSteganoMessage";
 import { getPermutation } from "../../permutation/getPermutation";
 import { usePermutation } from "../../permutation/usePermutation";
+import { splitByFiles } from "../splitByFiles";
+import { replaceClustersImproved } from "./replaceClustersImproved";
 
 
 
-export const III_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
-  let steganoMessage = getSteganoMessage(message, fileSystem);
+export const III_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
+  let { basic, ...rest } = getSteganoMessageImproved(message, fileSystem);
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);
   let endState: IMinificatedCluster[] = [];
   const copyOfInitState: IMinificatedCluster[] = JSON.parse(JSON.stringify(initState));
 
-  steganoMessage.forEach((s, index) => {
+  basic.forEach((s, index) => {
     const foundIndex = copyOfInitState.findIndex(iS => iS.file === s && !iS.moved);
     endState.push({ ...copyOfInitState[foundIndex], fsIndex: fsIndexes[index] });
     copyOfInitState[foundIndex].moved = true;
@@ -33,7 +35,17 @@ export const III_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =
     }
     endState.push(currentInitState);
   });
-  endState = endState.sort((a, b) => a.fsIndex - b.fsIndex);
+
+  const splited = splitByFiles(endState);
+
+  splited.forEach((clusters, index) => {
+    if (!rest[index]) return;
+    replaceClustersImproved(clusters, rest[index]);
+  })
+
+  endState = splited.reduce((result: IMinificatedCluster[], state) => {
+    return [...result, ...state]
+  });
 
   const permutations = getPermutation(initState, endState);
   usePermutation(permutations, fileSystem);

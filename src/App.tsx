@@ -15,6 +15,7 @@ import { III_Basic } from "./utils/stegano/basic/III_method";
 import { IV_Basic } from "./utils/stegano/basic/IV_method";
 import { I_Improved } from "./utils/stegano/improved/I_method";
 import { II_Improved } from "./utils/stegano/improved/II_method";
+import { III_Improved } from "./utils/stegano/improved/III_method";
 
 const FS_INIT = {
   size: 100,
@@ -89,6 +90,13 @@ function App() {
     setFs(Object.assign({ }, fileSystem));
   }
 
+  const handleImproved_III = () => {
+    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+    III_Improved("Hel", fileSystem);
+    setFs(Object.assign({ }, fileSystem));
+  }
+
+
 
   const classes = useStles();
   return (
@@ -96,7 +104,6 @@ function App() {
       <Grid container direction="column" wrap="nowrap" className={classes.container}>
         <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
           <Header
-
             isBeforeReset={isBeforeReset}
             setBeforeReset={(value) => setBeforeReset(Boolean(value))}
             onReset={handleReset}
@@ -107,6 +114,7 @@ function App() {
 
             onImproved_I={handleImproved_I}
             onImproved_II={handleImproved_II}
+            onImproved_III={handleImproved_III}
           />
         </Box>
         <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>

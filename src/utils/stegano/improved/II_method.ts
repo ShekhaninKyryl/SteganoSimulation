@@ -13,7 +13,7 @@ export const II_Improved = (message: Boolean[] | string, fileSystem: FileSystem)
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);
   let endState: IMinificatedCluster[] = [];
-  const copyOfInitState = [...initState];
+  const copyOfInitState: IMinificatedCluster[] = JSON.parse(JSON.stringify(initState));
 
   basic.forEach(s => {
     const foundIndex = copyOfInitState.findIndex(iS => iS.file === s);
@@ -37,6 +37,6 @@ export const II_Improved = (message: Boolean[] | string, fileSystem: FileSystem)
     return [...result, ...state]
   });
   const permutations = getPermutation(initState, endState);
-  console.log(permutations);
+
   usePermutation(permutations, fileSystem);
 }

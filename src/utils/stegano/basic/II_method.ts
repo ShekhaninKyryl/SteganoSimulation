@@ -11,7 +11,7 @@ export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);
   let endState: IMinificatedCluster[] = [];
-  const copyOfInitState = [...initState];
+  const copyOfInitState: IMinificatedCluster[] = JSON.parse(JSON.stringify(initState));
 
   steganoMessage.forEach(s => {
     const foundIndex = copyOfInitState.findIndex(iS => iS.file === s);

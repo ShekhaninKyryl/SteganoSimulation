@@ -16,6 +16,7 @@ import { IV_Basic } from "./utils/stegano/basic/IV_method";
 import { I_Improved } from "./utils/stegano/improved/I_method";
 import { II_Improved } from "./utils/stegano/improved/II_method";
 import { III_Improved } from "./utils/stegano/improved/III_method";
+import { IV_Improved } from "./utils/stegano/improved/IV_method";
 
 const FS_INIT = {
   size: 100,
@@ -96,6 +97,12 @@ function App() {
     setFs(Object.assign({ }, fileSystem));
   }
 
+  const handleImproved_IV = () => {
+    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+    IV_Improved("Hel", fileSystem);
+    setFs(Object.assign({ }, fileSystem));
+  }
+
 
 
   const classes = useStles();
@@ -115,6 +122,7 @@ function App() {
             onImproved_I={handleImproved_I}
             onImproved_II={handleImproved_II}
             onImproved_III={handleImproved_III}
+            onImproved_IV={handleImproved_IV}
           />
         </Box>
         <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>

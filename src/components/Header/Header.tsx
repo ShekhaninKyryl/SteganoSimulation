@@ -23,6 +23,7 @@ interface IProps {
   onImproved_I: () => void;
   onImproved_II: () => void;
   onImproved_III: () => void;
+  onImproved_IV: () => void;
 
 }
 
@@ -39,6 +40,7 @@ const Header: React.FC<IProps> = ({
   onImproved_I,
   onImproved_II,
   onImproved_III,
+  onImproved_IV,
 }) => {
   const classes = useStyles();
 
@@ -59,6 +61,7 @@ const Header: React.FC<IProps> = ({
           <Button onClick={onImproved_I}>{"Improved-I"}</Button>
           <Button onClick={onImproved_II}>{"Improved-II"}</Button>
           <Button onClick={onImproved_III}>{"Improved-III"}</Button>
+          <Button onClick={onImproved_IV}>{"Improved-IV"}</Button>
         </ButtonGroup>
       </Box>
       <Box flex={1} display="flex" justifyContent="flex-end" alignItems="flex-end">

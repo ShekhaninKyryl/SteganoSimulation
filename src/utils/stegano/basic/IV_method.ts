@@ -2,11 +2,13 @@ import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/Fi
 import { getSteganoMessage } from "../../message/getSteganoMessage";
 import { getPermutation } from "../../permutation/getPermutation";
 import { usePermutation } from "../../permutation/usePermutation";
+import { isEnoughBasic } from "./isEnoughBasic";
 
 
 
 export const IV_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let steganoMessage = getSteganoMessage(message, fileSystem);
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error("Message too large");
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

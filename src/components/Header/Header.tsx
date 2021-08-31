@@ -1,6 +1,14 @@
-import { Box, Button, ButtonGroup, Typography, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Box, Button, ButtonGroup, Typography, FormControlLabel, Checkbox, TextField } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
+import styled from "styled-components";
+
+const TextFieldWrapper = styled(Box)`
+margin: 8px;
+> * {
+   width:100%;
+ }
+`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,6 +22,9 @@ interface IProps {
   onReset: () => void;
   isBeforeReset: boolean;
   setBeforeReset: (checked?: boolean) => void;
+
+  message: string;
+  setMessage: (value: string) => void;
 
   onBasic_I: () => void;
   onBasic_II: () => void;
@@ -32,6 +43,9 @@ const Header: React.FC<IProps> = ({
   isBeforeReset,
   setBeforeReset,
 
+  message,
+  setMessage,
+
   onBasic_I,
   onBasic_II,
   onBasic_III,
@@ -45,32 +59,41 @@ const Header: React.FC<IProps> = ({
   const classes = useStyles();
 
   return (
-    <Box display="flex" flexDirection="row" className={classes.root}>
-      <Box>
-        <Typography color="textPrimary" variant="h6">{"Basic methods"}</Typography>
-        <ButtonGroup variant="contained" color="primary" aria-label="text primary button group">
-          <Button onClick={onBasic_I}>{"Basic-I"}</Button>
-          <Button onClick={onBasic_II}>{"Basic-II"}</Button>
-          <Button onClick={onBasic_III}>{"Basic-III"}</Button>
-          <Button onClick={onBasic_IV}>{"Basic-IV"}</Button>
-        </ButtonGroup>
+    <Box>
+      <Box display="flex" flexDirection="row" className={classes.root}>
+        <Box>
+          <Typography color="textPrimary" variant="h6">{"Basic methods"}</Typography>
+          <ButtonGroup variant="contained" color="primary" aria-label="text primary button group">
+            <Button onClick={onBasic_I}>{"Basic-I"}</Button>
+            <Button onClick={onBasic_II}>{"Basic-II"}</Button>
+            <Button onClick={onBasic_III}>{"Basic-III"}</Button>
+            <Button onClick={onBasic_IV}>{"Basic-IV"}</Button>
+          </ButtonGroup>
+        </Box>
+        <Box>
+          <Typography color="textPrimary" variant="h6">{"Improved methods"}</Typography>
+          <ButtonGroup variant="contained" color="secondary" aria-label="text primary button group">
+            <Button onClick={onImproved_I}>{"Improved-I"}</Button>
+            <Button onClick={onImproved_II}>{"Improved-II"}</Button>
+            <Button onClick={onImproved_III}>{"Improved-III"}</Button>
+            <Button onClick={onImproved_IV}>{"Improved-IV"}</Button>
+          </ButtonGroup>
+        </Box>
+        <Box flex={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
+          <FormControlLabel
+            disabled
+            control={<Checkbox checked={isBeforeReset} onChange={({ target: { checked } }) => setBeforeReset(checked)} name="isBeforeReset" color="default" />}
+            label="do reset before each going"
+          />
+          <Button variant="contained" onClick={onReset}>{"Reset"}</Button>
+        </Box>
       </Box>
-      <Box>
-        <Typography color="textPrimary" variant="h6">{"Improved methods"}</Typography>
-        <ButtonGroup variant="contained" color="secondary" aria-label="text primary button group">
-          <Button onClick={onImproved_I}>{"Improved-I"}</Button>
-          <Button onClick={onImproved_II}>{"Improved-II"}</Button>
-          <Button onClick={onImproved_III}>{"Improved-III"}</Button>
-          <Button onClick={onImproved_IV}>{"Improved-IV"}</Button>
-        </ButtonGroup>
-      </Box>
-      <Box flex={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
-        <FormControlLabel
-          control={<Checkbox checked={isBeforeReset} onChange={({ target: { checked } }) => setBeforeReset(checked)} name="isBeforeReset" color="default" />}
-          label="do reset before each going"
-        />
-        <Button variant="contained" onClick={onReset}>{"Reset"}</Button>
-      </Box>
+      <TextFieldWrapper>
+        <TextField
+          label="Message"
+          value={message}
+          onChange={({ target: { value } }) => setMessage(value)} />
+      </TextFieldWrapper>
     </Box>
   )
 }

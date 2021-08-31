@@ -1,14 +1,19 @@
 import { FileSystem } from "../../../entities/FileSystem/FileSystem";
 import { getSteganoMessage } from "../../message/getSteganoMessage";
+import { isEnoughBasic } from "./isEnoughBasic";
 
 
 export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let steganoMessage = getSteganoMessage(message, fileSystem);
 
 
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error("Message too large");
+
+
+
   const { files } = fileSystem;
 
-  const spreadClustersIndex: { [key: number]: number[] } = {};
+  const spreadClustersIndex: { [key: number]: number[] } = { };
   steganoMessage.forEach((steganoBlock, index) => {
     if (spreadClustersIndex[steganoBlock] === undefined) spreadClustersIndex[steganoBlock] = [];
     spreadClustersIndex[steganoBlock].push(index)

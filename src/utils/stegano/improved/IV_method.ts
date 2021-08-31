@@ -1,15 +1,17 @@
 import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
-import { getSteganoMessage, getSteganoMessageImproved } from "../../message/getSteganoMessage";
+import { getSteganoMessageImproved } from "../../message/getSteganoMessage";
 import { getPermutation } from "../../permutation/getPermutation";
 import { usePermutation } from "../../permutation/usePermutation";
 import { splitByFiles } from "../splitByFiles";
+import { isEnoughImproved } from "./isEnoughImproved";
 import { replaceClustersImproved } from "./replaceClustersImproved";
 
 
 
 export const IV_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let { basic, ...rest } = getSteganoMessageImproved(message, fileSystem);
-  console.log(basic, rest);
+  
+  if (!isEnoughImproved({ basic, ...rest }, fileSystem)) throw new Error("Message too large");
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

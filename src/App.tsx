@@ -22,16 +22,16 @@ const FS_INIT = {
   size: 100,
   fileOptions: [
     {
-      name: "A.txt", sizeInClusters: 4, color: "#FFFFFF"
+      name: "A.txt", sizeInClusters: 10, color: "#FFFFFF"
     },
     {
-      name: "B.txt", sizeInClusters: 4, color: "#880000"
+      name: "B.txt", sizeInClusters: 10, color: "#880000"
     },
     {
-      name: "C.txt", sizeInClusters: 4, color: "#FF0000"
+      name: "C.txt", sizeInClusters: 10, color: "#FF0000"
     },
     {
-      name: "D.txt", sizeInClusters: 4, color: "#FF5500"
+      name: "D.txt", sizeInClusters: 10, color: "#FF5500"
     },
   ]
 }
@@ -53,53 +53,54 @@ const useStles = makeStyles(() => ({
 
 function App() {
   const [fs, setFs] = useState(() => new FileSystem(FS_INIT));
-  const [isBeforeReset, setBeforeReset] = React.useState(false);
+  const [isBeforeReset, setBeforeReset] = React.useState(true);
+  const [message, setMessage] = React.useState("Hello");
 
   const handleReset = () => setFs(new FileSystem(FS_INIT));
 
   const handleBasic_I = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    setFs(I_Basic("H", fileSystem));
+    setFs(I_Basic(message, fileSystem));
   };
 
   const handleBasic_II = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    II_Basic("H", fileSystem);
+    II_Basic(message, fileSystem);
     setFs(Object.assign({ }, fileSystem));
   }
 
   const handleBasic_III = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    III_Basic("H", fileSystem);
+    III_Basic(message, fileSystem);
     setFs(Object.assign({ }, fileSystem));
   }
 
   const handleBasic_IV = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    IV_Basic("H", fileSystem);
+    IV_Basic(message, fileSystem);
     setFs(Object.assign({ }, fileSystem));
   }
 
   const handleImproved_I = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    setFs(I_Improved("Hel", fileSystem));
+    setFs(I_Improved(message, fileSystem));
   }
 
   const handleImproved_II = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    II_Improved("Hel", fileSystem);
+    II_Improved(message, fileSystem);
     setFs(Object.assign({ }, fileSystem));
   }
 
   const handleImproved_III = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    III_Improved("Hel", fileSystem);
+    III_Improved(message, fileSystem);
     setFs(Object.assign({ }, fileSystem));
   }
 
   const handleImproved_IV = () => {
     const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    IV_Improved("Hel", fileSystem);
+    IV_Improved(message, fileSystem);
     setFs(Object.assign({ }, fileSystem));
   }
 
@@ -111,6 +112,9 @@ function App() {
       <Grid container direction="column" wrap="nowrap" className={classes.container}>
         <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
           <Header
+            message={message}
+            setMessage={(value) => setMessage(value)}
+
             isBeforeReset={isBeforeReset}
             setBeforeReset={(value) => setBeforeReset(Boolean(value))}
             onReset={handleReset}

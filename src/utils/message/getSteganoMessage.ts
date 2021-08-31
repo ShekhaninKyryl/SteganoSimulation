@@ -2,8 +2,8 @@ import { convertBooleanToStegano } from "./convertBooleanToStegano";
 import { convertStringToBoolean } from "./convertStringToBoolean";
 import { FileSystem } from "../../entities/FileSystem/FileSystem";
 
-type ISteganoMessage = number[];
-type ISteganoMessageImproved = {
+export type ISteganoMessage = number[];
+export type ISteganoMessageImproved = {
   basic: ISteganoMessage;
   [key: number]: number[];
 }

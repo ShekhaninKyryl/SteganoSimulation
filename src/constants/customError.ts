@@ -1,3 +1,3 @@
 export enum ErrorTypes {
-  MessageToLarge = "Message to large"
+  MessageToLarge = "Message too large"
 }

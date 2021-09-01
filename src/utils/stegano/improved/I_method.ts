@@ -7,8 +7,7 @@ import { replaceClustersImproved } from "./replaceClustersImproved";
 export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let { basic, ...rest } = getSteganoMessageImproved(message, fileSystem);
 
-  if (!isEnoughImproved({ basic, ...rest }, fileSystem)) throw new Error("Message too large");
-
+  if (!isEnoughImproved({ basic, ...rest }, fileSystem)) throw new Error(`Message too large\n ${basic}`);
 
   const { files } = fileSystem;
 

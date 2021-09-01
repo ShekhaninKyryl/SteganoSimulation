@@ -8,7 +8,7 @@ import { isEnoughBasic } from "./isEnoughBasic";
 
 export const III_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let steganoMessage = getSteganoMessage(message, fileSystem);
-  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error("Message too large");
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error(`Message too large\n ${steganoMessage}`);
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

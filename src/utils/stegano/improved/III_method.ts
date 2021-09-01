@@ -11,7 +11,7 @@ import { replaceClustersImproved } from "./replaceClustersImproved";
 export const III_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let { basic, ...rest } = getSteganoMessageImproved(message, fileSystem);
   
-  if (!isEnoughImproved({ basic, ...rest }, fileSystem)) throw new Error("Message too large");
+  if (!isEnoughImproved({ basic, ...rest }, fileSystem)) throw new Error(`Message too large\n ${basic}`);
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

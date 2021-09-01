@@ -7,7 +7,8 @@ export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => 
   let steganoMessage = getSteganoMessage(message, fileSystem);
 
 
-  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error("Message too large");
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error(`Message too large
+   ${steganoMessage}`);
 
 
 

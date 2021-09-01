@@ -4,6 +4,7 @@ import { Box, Grid, makeStyles } from "@material-ui/core";
 import Header from "./components/Header/Header";
 import Body from "./components/Body/Body";
 import Footer from "./components/Footer/Footer";
+import ErrorWrapper, { ErrorWrapperChildren } from "./components/ErrorWrapper/ErrorWrapper";
 
 import './App.css';
 import { FileSystem } from "./entities/FileSystem/FileSystem";
@@ -50,8 +51,9 @@ const useStles = makeStyles(() => ({
   }
 }));
 
+type IProps = ErrorWrapperChildren | undefined;
 
-function App() {
+const App: React.FC<IProps> = ({ error, setError }) => {
   const [fs, setFs] = useState(() => new FileSystem(FS_INIT));
   const [isBeforeReset, setBeforeReset] = React.useState(true);
   const [message, setMessage] = React.useState("Hello");
@@ -59,49 +61,88 @@ function App() {
   const handleReset = () => setFs(new FileSystem(FS_INIT));
 
   const handleBasic_I = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    setFs(I_Basic(message, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      setFs(I_Basic(message, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+
   };
 
   const handleBasic_II = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    II_Basic(message, fileSystem);
-    setFs(Object.assign({ }, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      II_Basic(message, fileSystem);
+      setFs(Object.assign({ }, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
   }
 
   const handleBasic_III = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    III_Basic(message, fileSystem);
-    setFs(Object.assign({ }, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      III_Basic(message, fileSystem);
+      setFs(Object.assign({ }, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+   
   }
 
   const handleBasic_IV = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    IV_Basic(message, fileSystem);
-    setFs(Object.assign({ }, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      IV_Basic(message, fileSystem);
+      setFs(Object.assign({ }, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+   
   }
 
   const handleImproved_I = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    setFs(I_Improved(message, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      setFs(I_Improved(message, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+   
   }
 
   const handleImproved_II = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    II_Improved(message, fileSystem);
-    setFs(Object.assign({ }, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      II_Improved(message, fileSystem);
+      setFs(Object.assign({ }, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+   
   }
 
   const handleImproved_III = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    III_Improved(message, fileSystem);
-    setFs(Object.assign({ }, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      III_Improved(message, fileSystem);
+      setFs(Object.assign({ }, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+
   }
 
   const handleImproved_IV = () => {
-    const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-    IV_Improved(message, fileSystem);
-    setFs(Object.assign({ }, fileSystem));
+    try {
+      const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
+      IV_Improved(message, fileSystem);
+      setFs(Object.assign({ }, fileSystem));
+    } catch (error) {
+      if (setError) setError(String(error));
+    }
+   
   }
 
 
@@ -140,4 +181,8 @@ function App() {
   );
 }
 
-export default App;
+const WrappApp = () => {
+  return <ErrorWrapper><App /></ErrorWrapper>
+};
+
+export default WrappApp;

@@ -1,3 +1,5 @@
+import { ErrorTypes } from "../../../constants/customError";
+import CustomError from "../../../entities/CustomError/CustomError";
 import { FileSystem } from "../../../entities/FileSystem/FileSystem";
 import { getSteganoMessage } from "../../message/getSteganoMessage";
 import { isEnoughBasic } from "./isEnoughBasic";
@@ -7,8 +9,11 @@ export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => 
   let steganoMessage = getSteganoMessage(message, fileSystem);
 
 
-  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error(`Message too large
-   ${steganoMessage}`);
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new CustomError({
+    message: ErrorTypes.MessageToLarge,
+    basic: steganoMessage,
+    fileSystem: fileSystem,
+  });
 
 
 

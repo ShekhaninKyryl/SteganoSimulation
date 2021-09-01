@@ -3,13 +3,19 @@ import { getPermutation } from "../../permutation/getPermutation";
 import { usePermutation } from "../../permutation/usePermutation";
 import { getSteganoMessage } from "../../message/getSteganoMessage";
 import { isEnoughBasic } from "./isEnoughBasic";
+import CustomError from "../../../entities/CustomError/CustomError";
+import { ErrorTypes } from "../../../constants/customError";
 
 
 
 export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let steganoMessage = getSteganoMessage(message, fileSystem);
   
-  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error(`Message too large\n ${steganoMessage}`);
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new CustomError({
+    message: ErrorTypes.MessageToLarge,
+    basic: steganoMessage,
+    fileSystem: fileSystem,
+  });
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

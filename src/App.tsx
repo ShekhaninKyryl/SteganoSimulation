@@ -18,6 +18,7 @@ import { I_Improved } from "./utils/stegano/improved/I_method";
 import { II_Improved } from "./utils/stegano/improved/II_method";
 import { III_Improved } from "./utils/stegano/improved/III_method";
 import { IV_Improved } from "./utils/stegano/improved/IV_method";
+import CustomError from "./entities/CustomError/CustomError";
 
 const FS_INIT = {
   size: 100,
@@ -51,7 +52,7 @@ const useStles = makeStyles(() => ({
   }
 }));
 
-type IProps = ErrorWrapperChildren | undefined;
+type IProps = ErrorWrapperChildren;
 
 const App: React.FC<IProps> = ({ error, setError }) => {
   const [fs, setFs] = useState(() => new FileSystem(FS_INIT));
@@ -65,7 +66,8 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       setFs(I_Basic(message, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
 
   };
@@ -76,7 +78,8 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       II_Basic(message, fileSystem);
       setFs(Object.assign({ }, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
   }
 
@@ -86,9 +89,10 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       III_Basic(message, fileSystem);
       setFs(Object.assign({ }, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
-   
+
   }
 
   const handleBasic_IV = () => {
@@ -97,9 +101,10 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       IV_Basic(message, fileSystem);
       setFs(Object.assign({ }, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
-   
+
   }
 
   const handleImproved_I = () => {
@@ -107,9 +112,10 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       setFs(I_Improved(message, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
-   
+
   }
 
   const handleImproved_II = () => {
@@ -118,9 +124,10 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       II_Improved(message, fileSystem);
       setFs(Object.assign({ }, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
-   
+
   }
 
   const handleImproved_III = () => {
@@ -129,7 +136,8 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       III_Improved(message, fileSystem);
       setFs(Object.assign({ }, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
 
   }
@@ -140,9 +148,10 @@ const App: React.FC<IProps> = ({ error, setError }) => {
       IV_Improved(message, fileSystem);
       setFs(Object.assign({ }, fileSystem));
     } catch (error) {
-      if (setError) setError(String(error));
+      if (error instanceof CustomError)
+        if (setError) setError(error);
     }
-   
+
   }
 
 

@@ -1,3 +1,5 @@
+import { ErrorTypes } from "../../../constants/customError";
+import CustomError from "../../../entities/CustomError/CustomError";
 import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
 import { getSteganoMessage } from "../../message/getSteganoMessage";
 import { getPermutation } from "../../permutation/getPermutation";
@@ -8,7 +10,12 @@ import { isEnoughBasic } from "./isEnoughBasic";
 
 export const IV_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let steganoMessage = getSteganoMessage(message, fileSystem);
-  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new Error(`Message too large\n ${steganoMessage}`);
+
+  if (!isEnoughBasic(steganoMessage, fileSystem)) throw new CustomError({
+    message: ErrorTypes.MessageToLarge,
+    basic: steganoMessage,
+    fileSystem: fileSystem,
+  });
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);

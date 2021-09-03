@@ -71,7 +71,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleBasic_I = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      setFs(I_Basic(message, fileSystem));
+      setFs(I_Basic(isBinaryString ?convertToString(message): message, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -82,7 +82,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleBasic_II = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      II_Basic(message, fileSystem);
+      II_Basic(isBinaryString ?convertToString(message): message, fileSystem);
       setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
@@ -93,7 +93,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleBasic_III = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      III_Basic(message, fileSystem);
+      III_Basic(isBinaryString ?convertToString(message): message, fileSystem);
       setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
@@ -105,7 +105,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleBasic_IV = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      IV_Basic(message, fileSystem);
+      IV_Basic(isBinaryString ?convertToString(message): message, fileSystem);
       setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
@@ -117,7 +117,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleImproved_I = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      setFs(I_Improved(message, fileSystem));
+      setFs(I_Improved(isBinaryString ?convertToString(message): message, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -128,7 +128,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleImproved_II = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      II_Improved(message, fileSystem);
+      II_Improved(isBinaryString ?convertToString(message): message, fileSystem);
       setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
@@ -140,7 +140,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleImproved_III = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      III_Improved(message, fileSystem);
+      III_Improved(isBinaryString ?convertToString(message): message, fileSystem);
       setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
@@ -152,7 +152,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
   const handleImproved_IV = () => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
-      IV_Improved(message, fileSystem);
+      IV_Improved(isBinaryString ?convertToString(message): message, fileSystem);
       setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)

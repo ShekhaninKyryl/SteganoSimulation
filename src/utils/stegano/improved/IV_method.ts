@@ -1,6 +1,7 @@
 import { ErrorTypes } from "../../../constants/customError";
 import CustomError from "../../../entities/CustomError/CustomError";
 import { FileSystem, IMinificatedCluster } from "../../../entities/FileSystem/FileSystem";
+import Statistics from "../../../entities/Statistics/Statistics";
 import { getSteganoMessageImproved } from "../../message/getSteganoMessage";
 import { getPermutation } from "../../permutation/getPermutation";
 import { usePermutation } from "../../permutation/usePermutation";
@@ -19,6 +20,11 @@ export const IV_Improved = (message: Boolean[] | string, fileSystem: FileSystem)
     improved: rest,
     fileSystem: fileSystem,
   });
+
+  const statistic = new Statistics();
+  statistic
+    .setStartState(Object.assign({}, fileSystem))
+    .setMessage(message);
 
 
   const initState = fileSystem.getMinState();
@@ -63,4 +69,14 @@ export const IV_Improved = (message: Boolean[] | string, fileSystem: FileSystem)
 
   const permutations = getPermutation(initState, endState);
   usePermutation(permutations, fileSystem);
+
+  statistic
+    .setEndState(Object.assign({}, fileSystem))
+    .setPermutation(permutations)
+    .calculateClustersRead()
+    .calculateClustersWrite()
+    .calculateMemorySize()
+    .calculateHeaderMoves();
+
+  console.log(statistic);
 }

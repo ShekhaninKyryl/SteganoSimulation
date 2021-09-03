@@ -5,6 +5,7 @@ import { getSteganoMessage } from "../../message/getSteganoMessage";
 import { isEnoughBasic } from "./isEnoughBasic";
 import CustomError from "../../../entities/CustomError/CustomError";
 import { ErrorTypes } from "../../../constants/customError";
+import Statistics from "../../../entities/Statistics/Statistics";
 
 
 
@@ -16,6 +17,12 @@ export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
     basic: steganoMessage,
     fileSystem: fileSystem,
   });
+
+  const statistic = new Statistics();
+
+  statistic
+    .setStartState(Object.assign({}, fileSystem))
+    .setMessage(message);
 
   const initState = fileSystem.getMinState();
   const fsIndexes = initState.map(iS => iS.fsIndex);
@@ -35,4 +42,14 @@ export const II_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
 
   const permutations = getPermutation(initState, endState);
   usePermutation(permutations, fileSystem);
+
+  statistic
+  .setEndState(Object.assign({}, fileSystem))
+  .setPermutation(permutations)
+  .calculateClustersRead()
+  .calculateClustersWrite()
+  .calculateMemorySize()
+  .calculateHeaderMoves();
+
+console.log(statistic);
 }

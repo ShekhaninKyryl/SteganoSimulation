@@ -1,6 +1,7 @@
 import { ErrorTypes } from "../../../constants/customError";
 import CustomError from "../../../entities/CustomError/CustomError";
 import { FileSystem } from "../../../entities/FileSystem/FileSystem";
+import Statistics from "../../../entities/Statistics/Statistics";
 import { getSteganoMessage } from "../../message/getSteganoMessage";
 import { isEnoughBasic } from "./isEnoughBasic";
 
@@ -15,11 +16,15 @@ export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => 
     fileSystem: fileSystem,
   });
 
+  const statistic = new Statistics();
 
+  statistic
+    .setStartState(Object.assign({}, fileSystem))
+    .setMessage(message);
 
   const { files } = fileSystem;
 
-  const spreadClustersIndex: { [key: number]: number[] } = { };
+  const spreadClustersIndex: { [key: number]: number[] } = {};
   steganoMessage.forEach((steganoBlock, index) => {
     if (spreadClustersIndex[steganoBlock] === undefined) spreadClustersIndex[steganoBlock] = [];
     spreadClustersIndex[steganoBlock].push(index)
@@ -35,6 +40,15 @@ export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => 
   let availableClusterIndexes = files.reduce((res, f) => ([...res, ...f.clusters.map(c => c.fsIndex)]), [] as number[]);
 
   newFs.files.forEach((f, index) => f.addMissingClusters(fileSystem.files[index].clusters.length - f.clusters.length, availableClusterIndexes));
+
+  statistic
+    .setEndState(Object.assign({}, newFs))
+    .calculateClustersRead()
+    .calculateClustersWrite()
+    .calculateMemorySize()
+    .calculateHeaderMoves();
+
+  console.log(statistic);
 
   return newFs;
 }

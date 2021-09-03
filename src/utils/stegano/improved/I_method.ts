@@ -1,6 +1,7 @@
 import { ErrorTypes } from "../../../constants/customError";
 import CustomError from "../../../entities/CustomError/CustomError";
 import { FileSystem } from "../../../entities/FileSystem/FileSystem";
+import Statistics from "../../../entities/Statistics/Statistics";
 import { getSteganoMessageImproved } from "../../message/getSteganoMessage";
 import { isEnoughImproved } from "./isEnoughImproved";
 import { replaceClustersImproved } from "./replaceClustersImproved";
@@ -9,6 +10,7 @@ import { replaceClustersImproved } from "./replaceClustersImproved";
 export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) => {
   let { basic, ...rest } = getSteganoMessageImproved(message, fileSystem);
 
+  console.log("here");
   if (!isEnoughImproved({ basic, ...rest }, fileSystem)) throw new CustomError({
     message: ErrorTypes.MessageToLarge,
     basic: basic,
@@ -16,9 +18,15 @@ export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) 
     fileSystem: fileSystem,
   });
 
+  const statistic = new Statistics();
+
+  statistic
+    .setStartState(Object.assign({}, fileSystem))
+    .setMessage(message);
+
   const { files } = fileSystem;
 
-  const spreadClustersIndex: { [key: number]: number[] } = { };
+  const spreadClustersIndex: { [key: number]: number[] } = {};
   basic.forEach((steganoBlock, index) => {
     if (spreadClustersIndex[steganoBlock] === undefined) spreadClustersIndex[steganoBlock] = [];
     spreadClustersIndex[steganoBlock].push(index)
@@ -39,5 +47,15 @@ export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) 
     if (!rest[index]) return;
     replaceClustersImproved(file.clusters, rest[index]);
   })
+
+  statistic
+    .setEndState(Object.assign({}, newFs))
+    .calculateClustersRead()
+    .calculateClustersWrite()
+    .calculateMemorySize()
+    .calculateHeaderMoves();
+
+  console.log(statistic);
+
   return newFs;
 }

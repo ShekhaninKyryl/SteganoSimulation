@@ -2,6 +2,7 @@ import { Box, Button, ButtonGroup, Typography, FormControlLabel, Checkbox, TextF
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import styled from "styled-components";
+import MessageField from "../MessageField/MessageField";
 
 const TextFieldWrapper = styled(Box)`
 margin: 8px;
@@ -23,8 +24,11 @@ interface IProps {
   isBeforeReset: boolean;
   setBeforeReset: (checked?: boolean) => void;
 
+
   message: string;
   setMessage: (value: string) => void;
+  isBinaryString: boolean;
+  setIsBinaryString: (value: boolean) => void;
 
   onBasic_I: () => void;
   onBasic_II: () => void;
@@ -45,6 +49,9 @@ const Header: React.FC<IProps> = ({
 
   message,
   setMessage,
+
+  isBinaryString,
+  setIsBinaryString,
 
   onBasic_I,
   onBasic_II,
@@ -89,10 +96,12 @@ const Header: React.FC<IProps> = ({
         </Box>
       </Box>
       <TextFieldWrapper>
-        <TextField
-          label="Message"
-          value={message}
-          onChange={({ target: { value } }) => setMessage(value)} />
+        <MessageField
+        message={message} 
+        isBinaryString={isBinaryString}
+        setMessage={setMessage}
+        setIsBinaryString={setIsBinaryString}
+        />
       </TextFieldWrapper>
     </Box>
   )

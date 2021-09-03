@@ -19,6 +19,9 @@ import { II_Improved } from "./utils/stegano/improved/II_method";
 import { III_Improved } from "./utils/stegano/improved/III_method";
 import { IV_Improved } from "./utils/stegano/improved/IV_method";
 import CustomError from "./entities/CustomError/CustomError";
+import { validateBinary } from "./utils/message/validateBinary";
+import { convertToBinary } from "./utils/message/convertToBinary";
+import { convertToString } from "./utils/message/convertToString";
 
 const FS_INIT = {
   size: 100,
@@ -55,9 +58,13 @@ const useStles = makeStyles(() => ({
 type IProps = ErrorWrapperChildren;
 
 const App: React.FC<IProps> = ({ error, setError }) => {
+  const classes = useStles();
   const [fs, setFs] = useState(() => new FileSystem(FS_INIT));
   const [isBeforeReset, setBeforeReset] = React.useState(true);
-  const [message, setMessage] = React.useState("Hello");
+  const [message, setMessage] = React.useState<string>("");
+  const [isBinaryString, setIsBinaryString] = React.useState(false);
+
+  const handleSetMesage = (value: string) => setMessage(isBinaryString ? validateBinary(value) : value);
 
   const handleReset = () => setFs(new FileSystem(FS_INIT));
 
@@ -76,7 +83,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       II_Basic(message, fileSystem);
-      setFs(Object.assign({ }, fileSystem));
+      setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -87,7 +94,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       III_Basic(message, fileSystem);
-      setFs(Object.assign({ }, fileSystem));
+      setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -99,7 +106,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       IV_Basic(message, fileSystem);
-      setFs(Object.assign({ }, fileSystem));
+      setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -122,7 +129,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       II_Improved(message, fileSystem);
-      setFs(Object.assign({ }, fileSystem));
+      setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -134,7 +141,7 @@ const App: React.FC<IProps> = ({ error, setError }) => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       III_Improved(message, fileSystem);
-      setFs(Object.assign({ }, fileSystem));
+      setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
@@ -146,24 +153,29 @@ const App: React.FC<IProps> = ({ error, setError }) => {
     try {
       const fileSystem = isBeforeReset ? new FileSystem(FS_INIT) : fs;
       IV_Improved(message, fileSystem);
-      setFs(Object.assign({ }, fileSystem));
+      setFs(Object.assign({}, fileSystem));
     } catch (error) {
       if (error instanceof CustomError)
         if (setError) setError(error);
     }
-
   }
 
+  React.useEffect(() => {
+    if (isBinaryString) handleSetMesage(convertToBinary(message));
+    else handleSetMesage(convertToString(message))
+  }, [isBinaryString]);
 
+  React.useEffect(() => setMessage("Hello"), []);
 
-  const classes = useStles();
   return (
     <Box bgcolor="#f5f4e1" className="App">
       <Grid container direction="column" wrap="nowrap" className={classes.container}>
-        <Box width="100%" height="20%" className={classes.boxes} boxSizing="">
+        <Box width="100%" className={classes.boxes} boxSizing="">
           <Header
             message={message}
-            setMessage={(value) => setMessage(value)}
+            setMessage={handleSetMesage}
+            isBinaryString={isBinaryString}
+            setIsBinaryString={(value) => setIsBinaryString(value)}
 
             isBeforeReset={isBeforeReset}
             setBeforeReset={(value) => setBeforeReset(Boolean(value))}
@@ -179,10 +191,10 @@ const App: React.FC<IProps> = ({ error, setError }) => {
             onImproved_IV={handleImproved_IV}
           />
         </Box>
-        <Box width="100%" height="60%" className={clsx(classes.boxes, classes.mainBox)}>
+        <Box width="100%" className={clsx(classes.boxes, classes.mainBox)}>
           <Body fs={fs} />
         </Box>
-        <Box width="100%" height="20%" className={classes.boxes}>
+        <Box width="100%" className={classes.boxes}>
           <Footer />
         </Box>
       </Grid>

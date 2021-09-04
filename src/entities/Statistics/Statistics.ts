@@ -33,7 +33,10 @@ class Statistics implements IStatistics {
     after: number;
   }[];
 
-  setStartState = (state: FileSystem) => { this.fileSystemStart = state; return this };
+  setStartState = (state: FileSystem) => {
+    this.fileSystemStart = new FileSystem({ size: state.clusters.length, fileOptions: state.files.map(f => ({ color: f.color, name: f.name, sizeInClusters: f.clusters.length })) });
+    return this
+  };
 
   setEndState = (state: FileSystem) => { this.fileSystemEnd = state; return this };
 
@@ -154,6 +157,7 @@ class Statistics implements IStatistics {
   };
 
   calculateFragmentation = () => {
+    console.log("here")
     const before: number[] = [];
     const after: number[] = [];
     this.fragmentations = [];
@@ -164,11 +168,12 @@ class Statistics implements IStatistics {
       file.clusters
         .sort((a, b) => Number(a.fileIndex) - Number(b.fileIndex))
         .forEach(cluster => {
-          if (!prevIndex) {
+          if (prevIndex === undefined) {
             prevIndex = cluster.fsIndex;
             return;
           }
           fragmentationBefore += (cluster.fsIndex - prevIndex) === 1 ? 0 : 1;
+          prevIndex = cluster.fsIndex;
         });
       before.push(fragmentationBefore);
     });
@@ -179,11 +184,12 @@ class Statistics implements IStatistics {
       file.clusters
         .sort((a, b) => Number(a.fileIndex) - Number(b.fileIndex))
         .forEach(cluster => {
-          if (!prevIndex) {
+          if (prevIndex === undefined) {
             prevIndex = cluster.fsIndex;
             return;
           }
           fragmentationAfter += (cluster.fsIndex - prevIndex) === 1 ? 0 : 1;
+          prevIndex = cluster.fsIndex;
         });
       after.push(fragmentationAfter);
     });
@@ -192,7 +198,7 @@ class Statistics implements IStatistics {
       before: value,
       after: after[index],
     }));
-    
+
     return this;
   }
 }

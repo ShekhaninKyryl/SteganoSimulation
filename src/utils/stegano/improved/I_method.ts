@@ -53,7 +53,8 @@ export const I_Improved = (message: Boolean[] | string, fileSystem: FileSystem) 
     .calculateClustersRead()
     .calculateClustersWrite()
     .calculateMemorySize()
-    .calculateHeaderMoves();
+    .calculateHeaderMoves()
+    .calculateFragmentation();
 
   console.log(statistic);
 

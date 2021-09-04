@@ -149,7 +149,52 @@ class Statistics implements IStatistics {
     });
 
     this.headerMoves = sum;
+
+    return this;
   };
+
+  calculateFragmentation = () => {
+    const before: number[] = [];
+    const after: number[] = [];
+    this.fragmentations = [];
+
+    this.fileSystemStart?.files.forEach(file => {
+      let fragmentationBefore = 1;
+      let prevIndex: number;
+      file.clusters
+        .sort((a, b) => Number(a.fileIndex) - Number(b.fileIndex))
+        .forEach(cluster => {
+          if (!prevIndex) {
+            prevIndex = cluster.fsIndex;
+            return;
+          }
+          fragmentationBefore += (cluster.fsIndex - prevIndex) === 1 ? 0 : 1;
+        });
+      before.push(fragmentationBefore);
+    });
+
+    this.fileSystemEnd?.files.forEach(file => {
+      let fragmentationAfter = 1;
+      let prevIndex: number;
+      file.clusters
+        .sort((a, b) => Number(a.fileIndex) - Number(b.fileIndex))
+        .forEach(cluster => {
+          if (!prevIndex) {
+            prevIndex = cluster.fsIndex;
+            return;
+          }
+          fragmentationAfter += (cluster.fsIndex - prevIndex) === 1 ? 0 : 1;
+        });
+      after.push(fragmentationAfter);
+    });
+
+    before.forEach((value, index) => this.fragmentations?.push({
+      before: value,
+      after: after[index],
+    }));
+    
+    return this;
+  }
 }
 
 export default Statistics;

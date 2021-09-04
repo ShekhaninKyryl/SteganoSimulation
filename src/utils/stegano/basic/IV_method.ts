@@ -60,7 +60,8 @@ export const IV_Basic = (message: Boolean[] | string, fileSystem: FileSystem) =>
     .calculateClustersRead()
     .calculateClustersWrite()
     .calculateMemorySize()
-    .calculateHeaderMoves();
+    .calculateHeaderMoves()
+    .calculateFragmentation();
 
   console.log(statistic);
 }

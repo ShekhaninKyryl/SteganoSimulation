@@ -46,8 +46,9 @@ export const I_Basic = (message: Boolean[] | string, fileSystem: FileSystem) => 
     .calculateClustersRead()
     .calculateClustersWrite()
     .calculateMemorySize()
-    .calculateHeaderMoves();
-
+    .calculateHeaderMoves()
+    .calculateFragmentation();
+    
   console.log(statistic);
 
   return newFs;

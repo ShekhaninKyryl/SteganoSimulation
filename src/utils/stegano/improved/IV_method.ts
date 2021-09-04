@@ -76,7 +76,8 @@ export const IV_Improved = (message: Boolean[] | string, fileSystem: FileSystem)
     .calculateClustersRead()
     .calculateClustersWrite()
     .calculateMemorySize()
-    .calculateHeaderMoves();
+    .calculateHeaderMoves()
+    .calculateFragmentation();
 
   console.log(statistic);
 }

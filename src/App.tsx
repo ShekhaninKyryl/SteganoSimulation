@@ -194,9 +194,9 @@ const App: React.FC<IProps> = ({ error, setError }) => {
         <Box width="100%" className={clsx(classes.boxes, classes.mainBox)}>
           <Body fs={fs} />
         </Box>
-        <Box width="100%" className={classes.boxes}>
+        {/* <Box width="100%" className={classes.boxes}>
           <Footer />
-        </Box>
+        </Box> */}
       </Grid>
     </Box>
   );
